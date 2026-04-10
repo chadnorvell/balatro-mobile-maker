@@ -10,6 +10,7 @@ internal static class Program
 
     //TODO: Better command line args handling
     public static bool ArgsEnableAccessibleSave = false;
+    public static string ArgsGamePath = null;
 
     /// <summary>
     /// Main entry point of the program
@@ -17,10 +18,14 @@ internal static class Program
     /// <param name="args">Command line arguments</param>
     public static void Main(string[] args)
     {
-        //TODO: Better command line args handling 
-        foreach (string s in args)
-            if(s == "--enable-external-storage-patch")
+        //TODO: Better command line args handling
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (args[i] == "--enable-external-storage-patch")
                 ArgsEnableAccessibleSave = true;
+            if (args[i] == "--game-path" && i + 1 < args.Length)
+                ArgsGamePath = args[++i];
+        }
 
         View mainView = new View();
         mainView.Begin();

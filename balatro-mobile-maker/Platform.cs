@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
-//using System.IO;
+using System.IO;
 using static balatro_mobile_maker.View;
 using static balatro_mobile_maker.Tools;
 
@@ -167,14 +167,21 @@ internal class Platform
 
         string location = "";
 
-        if (isWindows)
+        if (Program.ArgsGamePath != null)
+        {
+            string gamePath = Program.ArgsGamePath;
+            if (Directory.Exists(gamePath))
+                gamePath = Path.Combine(gamePath, isOSX ? "Balatro.love" : "Balatro.exe");
+            location = gamePath;
+        }
+        else if (isWindows)
             location = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Balatro\\Balatro.exe";
 
         //TODO: Test OSX and Linux locations!!!
-        if (isOSX)
+        else if (isOSX)
             location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/Library/Application Support/Steam/steamapps/common/Balatro/Balatro.app/Contents/Resources/Balatro.love";
 
-        if (isLinux)
+        else if (isLinux)
             location = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "/.local/share/Steam/steamapps/common/Balatro/Balatro.exe";
 
 
